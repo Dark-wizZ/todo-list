@@ -23,10 +23,11 @@ button{
   padding: 5px 10px;
 }
 button:active{
-
+  background-color: var(--secondary-clr);
 }
 button:hover{
-  
+  cursor: pointer;
+  box-shadow: 3px 3px 5px grey;
 }
 .content{
   display: grid;
