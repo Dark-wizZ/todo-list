@@ -9,19 +9,31 @@
   border-radius: 5px;
   box-sizing: border-box;
 }
+html, body{
+  height: 100%;
+}
 body{
+  display: grid;
   background-color: var(--bgc);
+  grid-template-columns: 1fr 6fr;
 }
 button{
-  background-color: var(--secondary-clr);
+  background-color: var(--primary-clr);
   color: white;
   padding: 5px 10px;
+}
+button:active{
+
+}
+button:hover{
+  
 }
 .content{
   display: grid;
   padding: 50px;
   place-content: center;
   gap: 50px;
+  align-self: start;
 }
 .addTask{
   display: flex;
@@ -40,14 +52,24 @@ input{
 .tasks{
   display: grid;
   width: 50vw;
+  gap: 20px;
 }
 .taskItem{
+  height: 1.5em;
   background-color: var(--primary-clr);
   display: flex;
   color: white;
   padding: 5px 10px;
+  align-items: center;
+  gap: 10px;
 }
 .taskTitle{
   margin-right: auto;
+}
+.taskItem img{
+  height: 1.2em;
+}
+.sidebar{
+  background-color: var(--primary-clr);
 }
 
