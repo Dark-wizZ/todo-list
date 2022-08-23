@@ -1,4 +1,4 @@
-import Todos from './todos';
+import UI from './modules/ui';
+import './style.css'
 
-const todo = new Todos("fap", 'all the time', '32', '1');
-console.log(todo.title)
+document.addEventListener('DOMContentLoaded', UI.init());
