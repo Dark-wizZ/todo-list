@@ -1,0 +1,53 @@
+*{
+  margin: 0;
+  padding: 0;
+  border: 0;
+  --primary-clr: #54bab9;
+  --secondary-clr: #9ed2c6;
+  --bgc: #f7ecde;
+  --bgc-d: #e9dac1;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+body{
+  background-color: var(--bgc);
+}
+button{
+  background-color: var(--secondary-clr);
+  color: white;
+  padding: 5px 10px;
+}
+.content{
+  display: grid;
+  padding: 50px;
+  place-content: center;
+  gap: 50px;
+}
+.addTask{
+  display: flex;
+  place-content: center;
+  place-items: center;
+  gap: 10px;
+}
+.addTaskPrompt{
+  display: none;
+  gap: 20px;
+}
+input{
+  border: 1px solid var(--secondary-clr);
+  padding: 5px;
+}
+.tasks{
+  display: grid;
+  width: 50vw;
+}
+.taskItem{
+  background-color: var(--primary-clr);
+  display: flex;
+  color: white;
+  padding: 5px 10px;
+}
+.taskTitle{
+  margin-right: auto;
+}
+

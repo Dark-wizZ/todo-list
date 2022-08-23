@@ -3,6 +3,9 @@ import Todos from './todos'
 
 export default class UI{
   static init(){
+    Todos.addTaskToList(new Task(
+      "car buy", "07/06/2002"
+    ));
     this.domCache();
     this.render();
     this.bindEvent();
@@ -33,12 +36,24 @@ export default class UI{
   }
   static domCache(){
     this.confirmBtn = document.querySelector('.confirmBtn');
+    this.cancelBtn = document.querySelector('.cancelBtn');
     this.taskTitleIP = document.querySelector('.taskTitleIP');
     this.dueDateIP = document.querySelector('.dueDateIP');
-    this.tasks = document.querySelector('.tasks')
+    this.tasks = document.querySelector('.tasks');
+    this.addTaskBtn = document.querySelector('.addTaskBtn')
+    this.addTaskPrompt = document.querySelector('.addTaskPrompt');
   }
   static bindEvent(){
     this.confirmBtn.addEventListener('click', this.confirmBtnClk.bind(this));
+    this.addTaskBtn.addEventListener('click', this.addTaskBtnClk.bind(this));
+    this.cancelBtn.addEventListener('click', this.cancelBtnClk.bind(this));
+  }
+  static cancelBtnClk(){
+    this.showAddBtn();
+  }
+  static addTaskBtnClk(){
+    this.addTaskBtn.style.display = 'none';
+    this.addTaskPrompt.style.display = 'flex';
   }
   static confirmBtnClk(){
     const task = new Task(
@@ -46,5 +61,9 @@ export default class UI{
     );
     Todos.addTaskToList(task);
     this.render();
+  }
+  static showAddBtn(){
+    this.addTaskBtn.style.display = 'flex';
+    this.addTaskPrompt.style.display = 'none';
   }
 }
