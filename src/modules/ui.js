@@ -11,10 +11,25 @@ export default class UI{
     this.tasksRender();
   }
   static tasksRender(){
+    this.tasks.innerHTML='';
+
     for(let task of Todos.todoList){
-      console.log(task);
+      //create dom element
+      const taskItem = document.createElement('div');
+      taskItem.classList.add('taskItem');
+      const taskTitle = document.createElement('div');
+      taskTitle.classList.add('taskTitle');
+      const dueDate = document.createElement('div');
+      dueDate.classList.add('dueDate');
+
+      //add content
+      taskTitle.textContent = task.title;
+      dueDate.textContent = task.dueDate;
+
+      //append to dom
+      taskItem.append(taskTitle, dueDate);
+      this.tasks.append(taskItem);
     }
-    console.log('\n')
   }
   static domCache(){
     this.confirmBtn = document.querySelector('.confirmBtn');
