@@ -132,7 +132,6 @@ export default class Content{
     this.taskTitleIP.focus();
   }
   static confirmBtnClk(){
-    this.resetInputs();
     const task = new Task(
       (this.taskTitleIP.value)?(this.taskTitleIP.value):'Title Undefined',
        this.dueDateIP.value, Projects.currentProject
@@ -142,6 +141,7 @@ export default class Content{
     }
     Todos.addTaskToList(task);
     UI.render();
+    this.resetInputs();
   }
   static showAddBtn(){
     this.addTaskBtn.style.display = 'flex';
