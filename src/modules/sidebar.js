@@ -1,3 +1,6 @@
+import Projects from './project';
+import TrashIcon from '../img/trash.png';
+
 export default class{
 
   static init(){
