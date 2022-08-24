@@ -28,6 +28,9 @@ export default class UI{
     for(let i=0; i<Projects.projectList.length; i++){
       const projectItem = document.createElement('div');
       projectItem.classList.add('projectItem');
+      if(Projects.projectList[i]==Projects.currentProject){
+        projectItem.classList.add('current');
+      }
       projectItem.setAttribute('data-index',i);
       projectItem.textContent = Projects.projectList[i];
       this.projectList.append(projectItem);
@@ -45,6 +48,9 @@ export default class UI{
         continue;
       }
       //create dom element
+      const checkBox = document.createElement('input');
+      checkBox.setAttribute('type', 'checkbox');
+      checkBox.classList.add('checkBox');
       const taskItem = document.createElement('div');
       taskItem.classList.add('taskItem');
       taskItem.setAttribute('data-index', i);
@@ -54,20 +60,21 @@ export default class UI{
       dueDate.classList.add('dueDate');
       const trashIcon = document.createElement('img');
       trashIcon.classList.add('trashIcon')
-      const editIcon = document.createElement('img');
-      editIcon.classList.add('editIcon')
       const starIcon = document.createElement('img');
       starIcon.classList.add('starIcon')
 
       //add content
       taskTitle.textContent = Todos.todoList[i].title;
       dueDate.textContent = Todos.todoList[i].dueDate;
-      editIcon.src = EditIcon
       trashIcon.src = TrashIcon;
-      starIcon.src = StarIcon;
+      if(Todos.todoList[i].priority){
+        starIcon.src = StarGoldIcon;
+      }else{
+        starIcon.src = StarIcon;
+      }
 
       //append to dom
-      taskItem.append(taskTitle, dueDate, starIcon, editIcon, trashIcon);
+      taskItem.append(checkBox, taskTitle, dueDate, starIcon, trashIcon);
       this.tasks.append(taskItem);
     }
   }
@@ -88,6 +95,8 @@ export default class UI{
     this.projectCross = document.querySelector('.projectCross');
     this.projectList = document.querySelector('.projectList');
     this.projectItem = document.querySelectorAll('.projectItem');
+    this.starIcon = document.querySelectorAll('.taskItem .starIcon');
+    this.taskIPStarIcon = document.querySelector('.taskInput .starIcon');
   }
   static bindEvent(){
     this.confirmBtn.addEventListener('click', this.confirmBtnClk.bind(this));
@@ -96,7 +105,7 @@ export default class UI{
     this.projectAddBtn.addEventListener('click', this.projectAddBtnClk.bind(this));
     this.projectTick.addEventListener('click', this.projectTickClk.bind(this));
     this.projectCross.addEventListener('click', this.projectCrossClk.bind(this));
-    this.bindEventReload();
+    this.taskIPStarIcon.addEventListener('click', this.taskIPStarIconClk.bind(this));
   }
   static bindEventReload(){
     this.trashIcon.forEach((e)=>{
@@ -105,6 +114,22 @@ export default class UI{
     this.projectItem.forEach((e)=>{
       e.addEventListener('click', this.projectItemClk.bind(this, e))
     });
+    this.starIcon.forEach((e)=>{
+      e.addEventListener('click', this.starIconClk.bind(this, e));
+    });
+  }
+  static taskIPStarIconClk(){
+    console.log(this.taskIPStarIcon.src)
+    if(this.taskIPStarIcon.src == StarGoldIcon){
+      this.taskIPStarIcon.src = StarIcon;
+    }else{
+      this.taskIPStarIcon.src=StarGoldIcon;
+    }
+  }
+  static starIconClk(e){
+    const index = this.indexByElem(e);
+    Todos.changePriority(index);
+    this.render();
   }
   static projectItemClk(e){
     Projects.currentProject = e.textContent;
@@ -115,6 +140,14 @@ export default class UI{
     this.projectInput.style.display = 'none';
   }
   static projectTickClk(){
+    if(this.projectTitleIP.value==''){
+      alert("Title can't be empty");
+      return;
+    }
+    if(Projects.projectList.includes(this.projectTitleIP.value)){
+      alert('project name alreasdy exist!')
+      return;
+    }
     Projects.addProjectToList(this.projectTitleIP.value);
 
     this.projectAddBtn.style.display ='block';
@@ -144,6 +177,9 @@ export default class UI{
     const task = new Task(
       this.taskTitleIP.value, this.dueDateIP.value, Projects.currentProject
     );
+    if(this.taskIPStarIcon.src==StarGoldIcon){
+      task.priority=true;
+    }
     Todos.addTaskToList(task);
     this.render();
   }

@@ -1,3 +1,7 @@
+@font-face {
+  font-family: 'SignikaNegative';
+  src: url(./font/SignikaNegative.ttf);
+}
 *{
   margin: 0;
   padding: 0;
@@ -8,6 +12,7 @@
   --bgc-d: #e9dac1;
   border-radius: 5px;
   box-sizing: border-box;
+  font-family: 'SignikaNegative';
 }
 html, body{
   height: 100%;
@@ -71,6 +76,9 @@ input{
 .taskItem img{
   height: 1.2em;
 }
+.taskInput img{
+  height: 1.2em;
+}
 .sidebar{
   background-color: var(--primary-clr);
   padding: 10px;
@@ -121,8 +129,12 @@ input{
 .projectItem{
   cursor: pointer;
   padding: 3px 5px;
+  color:white;
 }
 .projectItem:hover{
   background-color: var(--secondary-clr);
 }
-
+.projectItem.current{
+  background-color: var(--secondary-clr);
+  color:black;
+}
