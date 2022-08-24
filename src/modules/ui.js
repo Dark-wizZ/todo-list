@@ -9,7 +9,6 @@ import Data from 'data-fns';
 
 export default class UI{
   static init(){
-    console.log(new Date(2014, 3,4))
     this.domCache();
     this.render();
     this.domCache();
@@ -28,6 +27,7 @@ export default class UI{
       trashIcon.classList.add('trashIcon')
       const projectItem = document.createElement('div');
       projectItem.classList.add('projectItem');
+      if(i==0) projectItem.classList.add('general');
       if(Projects.projectList[i]==Projects.currentProject){
         projectItem.classList.add('current');
       }
@@ -102,7 +102,8 @@ export default class UI{
     this.projectItem = document.querySelectorAll('.projectItem');
     this.starIcon = document.querySelectorAll('.taskItem .starIcon');
     this.taskIPStarIcon = document.querySelector('.taskInput .starIcon');
-    this.checkBox = document.querySelectorAll('.checkBox')
+    this.checkBox = document.querySelectorAll('.checkBox');
+    this.projectItemTrashIcon = document.querySelectorAll('.projectItem .trashIcon');
   }
   static bindEvent(){
     this.confirmBtn.addEventListener('click', this.confirmBtnClk.bind(this));
@@ -125,7 +126,17 @@ export default class UI{
     });
     this.checkBox.forEach((e)=>{
       e.addEventListener('change', this.checkBoxChange.bind(this, e));
+    });
+    this.projectItemTrashIcon.forEach((e)=>{
+      e.addEventListener('click', this.projectItemTrashIconClk.bind(this, e));
     })
+  }
+  static projectItemTrashIconClk(e){
+    this.isProjectItemTrashIconClicked = true;
+    const index = this.indexByElem(e);
+    Projects.deleteProject(index);
+    console.log(Projects.currentProject)
+    this.render();
   }
   static checkBoxChange(e){
     const index = this.indexByElem(e);
@@ -149,6 +160,10 @@ export default class UI{
     this.render();
   }
   static projectItemClk(e){
+    if(this.isProjectItemTrashIconClicked){
+      this.isProjectItemTrashIconClicked=false;
+      return;
+    }
     Projects.currentProject = e.textContent;
     this.render();
   }

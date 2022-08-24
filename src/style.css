@@ -20,7 +20,7 @@ html, body{
 body{
   display: grid;
   background-color: var(--bgc);
-  grid-template-columns: 1fr 6fr;
+  grid-template-columns: minmax(150px, max-content) 1fr;
 }
 button{
   background-color: var(--primary-clr);
@@ -84,6 +84,7 @@ input{
   padding: 10px;
   display: grid;
   gap:10px;
+  min-width: fit-content;
 }
 .project{
   display: grid;
@@ -153,6 +154,6 @@ input{
   margin-left:auto;
   display: none;
 }
-.projectItem:hover img{
+.projectItem:hover:not(.general) img{
   display: block;
 }
