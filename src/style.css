@@ -127,6 +127,8 @@ input{
   min-width: 100%;
 }
 .projectItem{
+  display: flex;
+  align-items: center;
   cursor: pointer;
   padding: 3px 5px;
   color:white;
@@ -141,7 +143,16 @@ input{
 .taskItem.done{
   color:white;
   text-decoration: line-through;
+  background-color: grey;
 }
-.checkBox:hover,.taskItem img:hover{
+.checkBox:hover,.taskItem img:hover, .starIcon:hover{
   cursor: pointer;
+}
+.projectItem img{
+  height: 1.3rem;
+  margin-left:auto;
+  display: none;
+}
+.projectItem:hover img{
+  display: block;
 }

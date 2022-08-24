@@ -5,9 +5,11 @@ import TrashIcon from '../img/trash.png';
 import EditIcon from '../img/edit.png';
 import StarIcon from '../img/star.png';
 import StarGoldIcon from '../img/starGold.png';
+import Data from 'data-fns';
 
 export default class UI{
   static init(){
+    console.log(new Date(2014, 3,4))
     this.domCache();
     this.render();
     this.domCache();
@@ -22,6 +24,8 @@ export default class UI{
   static projectRender(){
     this.projectList.innerHTML = '';
     for(let i=0; i<Projects.projectList.length; i++){
+      const trashIcon = document.createElement('img');
+      trashIcon.classList.add('trashIcon')
       const projectItem = document.createElement('div');
       projectItem.classList.add('projectItem');
       if(Projects.projectList[i]==Projects.currentProject){
@@ -29,6 +33,8 @@ export default class UI{
       }
       projectItem.setAttribute('data-index',i);
       projectItem.textContent = Projects.projectList[i];
+      trashIcon.src = TrashIcon;
+      projectItem.append(trashIcon)
       this.projectList.append(projectItem);
     }
   }
