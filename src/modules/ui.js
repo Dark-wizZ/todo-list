@@ -1,9 +1,10 @@
-import Task from './task'
-import Todos from './todos'
-import TrashIcon from '../img/trash.png'
-import EditIcon from '../img/edit.png'
-import StarIcon from '../img/star.png'
-import StarGoldIcon from '../img/starGold.png'
+import Task from './task';
+import Todos from './todos';
+import Projects from './project';
+import TrashIcon from '../img/trash.png';
+import EditIcon from '../img/edit.png';
+import StarIcon from '../img/star.png';
+import StarGoldIcon from '../img/starGold.png';
 
 export default class UI{
   static init(){
@@ -11,19 +12,28 @@ export default class UI{
       "car buy", "07/06/2002"
     ));
     this.domCache();
-    this.currentProject = 'General'
     this.render();
     this.domCache();
     this.bindEvent();
   }
   static render(){
+    this.projectRender();
     this.contentRender();
     this.domCache();
     this.bindEventReload();
-    console.log(Todos.todoList);
+  }
+  static projectRender(){
+    this.projectList.innerHTML = '';
+    for(let i=0; i<Projects.projectList.length; i++){
+      const projectItem = document.createElement('div');
+      projectItem.classList.add('projectItem');
+      projectItem.setAttribute('data-index',i);
+      projectItem.textContent = Projects.projectList[i];
+      this.projectList.append(projectItem);
+    }
   }
   static contentRender(){
-    this.contentHeading.textContent = this.currentProject;
+    this.contentHeading.textContent = Projects.currentProject;
     this.tasksRender();
   }
   static tasksRender(){
@@ -71,6 +81,8 @@ export default class UI{
     this.projectInput = document.querySelector('.projectInput');
     this.projectTick = document.querySelector('.projectTick');
     this.projectCross = document.querySelector('.projectCross');
+    this.projectList = document.querySelector('.projectList');
+    this.projectItem = document.querySelectorAll('.projectItem');
   }
   static bindEvent(){
     this.confirmBtn.addEventListener('click', this.confirmBtnClk.bind(this));
@@ -79,28 +91,39 @@ export default class UI{
     this.projectAddBtn.addEventListener('click', this.projectAddBtnClk.bind(this));
     this.projectTick.addEventListener('click', this.projectTickClk.bind(this));
     this.projectCross.addEventListener('click', this.projectCrossClk.bind(this));
+    this.bindEventReload();
+  }
+  static bindEventReload(){
     this.trashIcon.forEach((e)=>{
-      e.addEventListener('click', this.trashIconClk)
-    })
+      e.addEventListener('click', this.trashIconClk.bind(this, e))
+    });
+    this.projectItem.forEach((e)=>{
+      e.addEventListener('click', this.projectItemClk.bind(this, e))
+    });
+  }
+  static projectItemClk(e){
+
   }
   static projectCrossClk(){ 
     this.projectAddBtn.style.display ='block';
     this.projectInput.style.display = 'none';
   }
   static projectTickClk(){
+    Projects.addProjectToList(this.projectTitleIP.value);
 
+    this.projectAddBtn.style.display ='block';
+    this.projectInput.style.display = 'none';
+    this.render();
   }
   static projectAddBtnClk(){
     this.projectInput.style.display = 'grid'; 
     this.projectAddBtn.style.display ='none';
   }
-  static bindEventReload(){
-    this.trashIcon.forEach((e)=>{
-      e.addEventListener('click', this.trashIconClk.bind(this, e))
-    })
+  static indexByElem(e){
+    return e.parentElement.dataset.index;
   }
   static trashIconClk(e){
-    const index = e.parentElement.dataset.index;
+    const index = this.indexByElem(e);
     Todos.deleteTask(index);
     this.render();
   }
@@ -113,7 +136,7 @@ export default class UI{
   }
   static confirmBtnClk(){
     const task = new Task(
-      this.taskTitleIP.value, this.dueDateIP.value, this.currentProject
+      this.taskTitleIP.value, this.dueDateIP.value, Projects.currentProject
     );
     Todos.addTaskToList(task);
     this.render();
