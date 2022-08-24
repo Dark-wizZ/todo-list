@@ -1,24 +1,43 @@
 import Task from './task';
 import Todos from './todos';
-import Projects from './project';
 import TrashIcon from '../img/trash.png';
 import EditIcon from '../img/edit.png';
 import StarIcon from '../img/star.png';
 import StarGoldIcon from '../img/starGold.png';
 import Data from 'data-fns';
+import Sidebar from './sidebar'
+import sidebar from './sidebar';
+import Projects from './project';
 
 export default class UI{
   static init(){
     this.domCache();
     this.render();
-    this.domCache();
     this.bindEvent();
   }
   static render(){
-    this.projectRender();
+    sidebar.init();
     this.contentRender();
     this.domCache();
     this.bindEventReload();
+  }
+  static projectRender(){
+    this.projectList.innerHTML = '';
+    for(let i=0; i<Projects.projectList.length; i++){
+      const trashIcon = document.createElement('img');
+      trashIcon.classList.add('trashIcon')
+      const projectItem = document.createElement('div');
+      projectItem.classList.add('projectItem');
+      if(i==0) projectItem.classList.add('general');
+      if(Projects.projectList[i]==Projects.currentProject){
+        projectItem.classList.add('current');
+      }
+      projectItem.setAttribute('data-index',i);
+      projectItem.textContent = Projects.projectList[i];
+      trashIcon.src = TrashIcon;
+      projectItem.append(trashIcon)
+      this.projectList.append(projectItem);
+    }
   }
   static contentRender(){
     this.contentHeading.textContent = Projects.currentProject;
