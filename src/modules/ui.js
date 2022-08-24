@@ -12,32 +12,15 @@ import Projects from './project';
 export default class UI{
   static init(){
     this.domCache();
+    sidebar.init();
     this.render();
     this.bindEvent();
   }
   static render(){
-    sidebar.init();
+    sidebar.render();
     this.contentRender();
     this.domCache();
     this.bindEventReload();
-  }
-  static projectRender(){
-    this.projectList.innerHTML = '';
-    for(let i=0; i<Projects.projectList.length; i++){
-      const trashIcon = document.createElement('img');
-      trashIcon.classList.add('trashIcon')
-      const projectItem = document.createElement('div');
-      projectItem.classList.add('projectItem');
-      if(i==0) projectItem.classList.add('general');
-      if(Projects.projectList[i]==Projects.currentProject){
-        projectItem.classList.add('current');
-      }
-      projectItem.setAttribute('data-index',i);
-      projectItem.textContent = Projects.projectList[i];
-      trashIcon.src = TrashIcon;
-      projectItem.append(trashIcon)
-      this.projectList.append(projectItem);
-    }
   }
   static contentRender(){
     this.contentHeading.textContent = Projects.currentProject;
@@ -94,33 +77,19 @@ export default class UI{
     this.addTaskPrompt = document.querySelector('.addTaskPrompt');
     this.trashIcon = document.querySelectorAll('.trashIcon');
     this.contentHeading = document.querySelector('.content .heading');
-    this.projectAddBtn = document.querySelector('.addProjectBtn');
-    this.projectTitleIP = document.querySelector('.projectTitleIP');
-    this.projectInput = document.querySelector('.projectInput');
-    this.projectTick = document.querySelector('.projectTick');
-    this.projectCross = document.querySelector('.projectCross');
-    this.projectList = document.querySelector('.projectList');
-    this.projectItem = document.querySelectorAll('.projectItem');
     this.starIcon = document.querySelectorAll('.taskItem .starIcon');
     this.taskIPStarIcon = document.querySelector('.taskInput .starIcon');
     this.checkBox = document.querySelectorAll('.checkBox');
-    this.projectItemTrashIcon = document.querySelectorAll('.projectItem .trashIcon');
   }
   static bindEvent(){
     this.confirmBtn.addEventListener('click', this.confirmBtnClk.bind(this));
     this.addTaskBtn.addEventListener('click', this.addTaskBtnClk.bind(this));
     this.cancelBtn.addEventListener('click', this.cancelBtnClk.bind(this));
-    this.projectAddBtn.addEventListener('click', this.projectAddBtnClk.bind(this));
-    this.projectTick.addEventListener('click', this.projectTickClk.bind(this));
-    this.projectCross.addEventListener('click', this.projectCrossClk.bind(this));
     this.taskIPStarIcon.addEventListener('click', this.taskIPStarIconClk.bind(this));
   }
   static bindEventReload(){
     this.trashIcon.forEach((e)=>{
       e.addEventListener('click', this.trashIconClk.bind(this, e))
-    });
-    this.projectItem.forEach((e)=>{
-      e.addEventListener('click', this.projectItemClk.bind(this, e))
     });
     this.starIcon.forEach((e)=>{
       e.addEventListener('click', this.starIconClk.bind(this, e));
@@ -128,9 +97,6 @@ export default class UI{
     this.checkBox.forEach((e)=>{
       e.addEventListener('change', this.checkBoxChange.bind(this, e));
     });
-    this.projectItemTrashIcon.forEach((e)=>{
-      e.addEventListener('click', this.projectItemTrashIconClk.bind(this, e));
-    })
   }
   static projectItemTrashIconClk(e){
     this.isProjectItemTrashIconClicked = true;

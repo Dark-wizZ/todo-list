@@ -1,5 +1,6 @@
 import Projects from './project';
 import TrashIcon from '../img/trash.png';
+import UI from './ui'
 
 export default class{
 
@@ -10,6 +11,7 @@ export default class{
   }
   static render(){
     this.projectRender();
+    this.domCache();
     this.bindEventReload();
   }
   static projectRender(){
@@ -55,6 +57,7 @@ export default class{
   }
 
   static projectItemTrashIconClk(e){
+    console.log('fg')
     this.isProjectItemTrashIconClicked = true;
     const index = this.indexByElem(e);
     Projects.deleteProject(index);
@@ -80,7 +83,7 @@ export default class{
 
     this.projectAddBtn.style.display ='block';
     this.projectInput.style.display = 'none';
-    this.render();
+    UI.render();
   }
 
   static projectAddBtnClk(){
@@ -94,7 +97,11 @@ export default class{
       return;
     }
     Projects.currentProject = e.textContent;
-    this.render();
+    UI.render();
+  }
+
+  static indexByElem(e){
+    return e.parentElement.dataset.index;
   }
 
 }
