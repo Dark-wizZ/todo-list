@@ -33,75 +33,69 @@ export default class{
     }
   }
   static domCache(){
-    this.projectAddBtn = document.querySelector('.addProjectBtn');
-    this.projectTitleIP = document.querySelector('.projectTitleIP');
+    this.addBtn = document.querySelector('.addProjectBtn');
+    this.titleIP = document.querySelector('.projectTitleIP');
     this.projectInput = document.querySelector('.projectInput');
     this.projectTick = document.querySelector('.projectTick');
     this.projectCross = document.querySelector('.projectCross');
     this.projectList = document.querySelector('.projectList');
     this.projectItem = document.querySelectorAll('.projectItem');
-    this.projectItemTrashIcon = document.querySelectorAll('.projectItem .trashIcon');
+    this.TrashIcon = document.querySelectorAll('.projectItem .trashIcon');
   }
   static bindEvent(){
-    this.projectAddBtn.addEventListener('click', this.projectAddBtnClk.bind(this));
+    this.addBtn.addEventListener('click', this.addBtnClk.bind(this));
     this.projectTick.addEventListener('click', this.projectTickClk.bind(this));
     this.projectCross.addEventListener('click', this.projectCrossClk.bind(this));
   }
   static bindEventReload(){
-    this.projectItemTrashIcon.forEach((e)=>{
-      e.addEventListener('click', this.projectItemTrashIconClk.bind(this, e));
+    this.TrashIcon.forEach((e)=>{
+      e.addEventListener('click', this.trashIconClk.bind(this, e));
     });
     this.projectItem.forEach((e)=>{
       e.addEventListener('click', this.projectItemClk.bind(this, e))
     });
   }
 
-  static projectItemTrashIconClk(e){
-    console.log('fg')
-    this.isProjectItemTrashIconClicked = true;
-    const index = this.indexByElem(e);
+  static trashIconClk(e){
+    this.trashIconClicked = true;
+    const index = UI.indexByElem(e);
     Projects.deleteProject(index);
-    console.log(Projects.currentProject)
     this.render();
   }
 
   static projectCrossClk(){ 
-    this.projectAddBtn.style.display ='block';
+    this.addBtn.style.display ='block';
     this.projectInput.style.display = 'none';
   }
 
   static projectTickClk(){
-    if(this.projectTitleIP.value==''){
+    if(this.titleIP.value==''){
       alert("Title can't be empty");
       return;
     }
-    if(Projects.projectList.includes(this.projectTitleIP.value)){
+    if(Projects.projectList.includes(this.titleIP.value)){
       alert('project name alreasdy exist!')
       return;
     }
-    Projects.addProjectToList(this.projectTitleIP.value);
+    Projects.addProjectToList(this.titleIP.value);
 
-    this.projectAddBtn.style.display ='block';
+    this.addBtn.style.display ='block';
     this.projectInput.style.display = 'none';
     UI.render();
   }
 
-  static projectAddBtnClk(){
+  static addBtnClk(){
     this.projectInput.style.display = 'grid'; 
-    this.projectAddBtn.style.display ='none';
+    this.addBtn.style.display ='none';
   }
 
   static projectItemClk(e){
-    if(this.isProjectItemTrashIconClicked){
-      this.isProjectItemTrashIconClicked=false;
+    if(this.trashIconClicked){
+      this.trashIconClicked=false;
       return;
     }
     Projects.currentProject = e.textContent;
     UI.render();
-  }
-
-  static indexByElem(e){
-    return e.parentElement.dataset.index;
   }
 
 }
