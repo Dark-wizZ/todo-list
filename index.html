@@ -10,11 +10,15 @@
 </head>
 <body>
   <div class="sidebar">
-      <div class="project">
+    <div class="title">TODO</div>
+    <div class="project">
       <div class="heading">Projects</div>
       <button class="addProjectBtn">Add project</button>
       <div class="projectInput">
-        <input type="text" class="projectTitleIP" maxlength="20">
+        <input type="text" class="projectTitleIP" maxlength="20" 
+            placeholder="Enter Title">
+        <div class="error emptyTitle">Title can't be Empty!</div>
+        <div class="error titleExist">Name already exist!</div>
         <div class="options">
           <img src="tick.png" alt="submit" class="projectTick">
           <img src="cross.png" alt="cancel" class="projectCross">
@@ -44,5 +48,6 @@
       
     </div>
   </div>
+  <div class="footer">Not Optimized for Mobiles</div>
 </body>
 </html>
