@@ -79,6 +79,7 @@ input{
 }
 .project{
   display: grid;
+  grid-auto-columns: 100%;
   place-content: start;
   gap: 10px;
 }
@@ -113,5 +114,15 @@ input{
 }
 .projectList{
   font-size: 1.2rem;
+  display: grid;
+  gap: 10px;
+  min-width: 100%;
+}
+.projectItem{
+  cursor: pointer;
+  padding: 3px 5px;
+}
+.projectItem:hover{
+  background-color: var(--secondary-clr);
 }
 
