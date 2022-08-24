@@ -11,14 +11,20 @@ export default class UI{
       "car buy", "07/06/2002"
     ));
     this.domCache();
+    this.currentProject = 'General'
     this.render();
     this.domCache();
     this.bindEvent();
   }
   static render(){
-    this.tasksRender();
+    this.contentRender();
     this.domCache();
     this.bindEventReload();
+    console.log(Todos.todoList);
+  }
+  static contentRender(){
+    this.contentHeading.textContent = this.currentProject;
+    this.tasksRender();
   }
   static tasksRender(){
     this.tasks.innerHTML='';
@@ -59,14 +65,34 @@ export default class UI{
     this.addTaskBtn = document.querySelector('.addTaskBtn')
     this.addTaskPrompt = document.querySelector('.addTaskPrompt');
     this.trashIcon = document.querySelectorAll('.trashIcon');
+    this.contentHeading = document.querySelector('.content .heading');
+    this.projectAddBtn = document.querySelector('.addProjectBtn');
+    this.projectTitleIP = document.querySelector('.projectTitleIP');
+    this.projectInput = document.querySelector('.projectInput');
+    this.projectTick = document.querySelector('.projectTick');
+    this.projectCross = document.querySelector('.projectCross');
   }
   static bindEvent(){
     this.confirmBtn.addEventListener('click', this.confirmBtnClk.bind(this));
     this.addTaskBtn.addEventListener('click', this.addTaskBtnClk.bind(this));
     this.cancelBtn.addEventListener('click', this.cancelBtnClk.bind(this));
+    this.projectAddBtn.addEventListener('click', this.projectAddBtnClk.bind(this));
+    this.projectTick.addEventListener('click', this.projectTickClk.bind(this));
+    this.projectCross.addEventListener('click', this.projectCrossClk.bind(this));
     this.trashIcon.forEach((e)=>{
       e.addEventListener('click', this.trashIconClk)
     })
+  }
+  static projectCrossClk(){ 
+    this.projectAddBtn.style.display ='block';
+    this.projectInput.style.display = 'none';
+  }
+  static projectTickClk(){
+
+  }
+  static projectAddBtnClk(){
+    this.projectInput.style.display = 'grid'; 
+    this.projectAddBtn.style.display ='none';
   }
   static bindEventReload(){
     this.trashIcon.forEach((e)=>{
@@ -87,7 +113,7 @@ export default class UI{
   }
   static confirmBtnClk(){
     const task = new Task(
-      this.taskTitleIP.value, this.dueDateIP.value
+      this.taskTitleIP.value, this.dueDateIP.value, this.currentProject
     );
     Todos.addTaskToList(task);
     this.render();

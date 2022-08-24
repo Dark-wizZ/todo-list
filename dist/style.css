@@ -62,6 +62,7 @@ input{
   color: white;
   padding: 5px 10px;
   align-items: center;
+  align-items: center;
   gap: 10px;
 }
 .taskTitle{
@@ -72,5 +73,45 @@ input{
 }
 .sidebar{
   background-color: var(--primary-clr);
+  padding: 10px;
+  display: grid;
+  gap:10px;
+}
+.project{
+  display: grid;
+  place-content: start;
+  gap: 10px;
+}
+.project .heading{
+  font-size: 1.5rem;
+  color: white;
+}
+.content .heading{
+  text-align: center;
+  font-size: 1.8rem;
+  font-weight: 900;
+}
+.project button{
+  border: 1px solid white;
+}
+.projectInput{
+  display: none;
+  gap: 2px;
+}
+.projectInput img{
+  height: 30px;
+}
+.projectInput .options{
+  display: flex;
+  justify-content: space-around;
+}
+.project .options img{
+  padding: 5px;
+}
+.projectInput .options img:hover{
+  background-color: var(--secondary-clr);
+}
+.projectList{
+  font-size: 1.2rem;
 }
 
