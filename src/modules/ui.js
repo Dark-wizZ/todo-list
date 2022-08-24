@@ -9,7 +9,7 @@ import StarGoldIcon from '../img/starGold.png';
 export default class UI{
   static init(){
     Todos.addTaskToList(new Task(
-      "car buy", "07/06/2002"
+      "car buy", "07/06/2002" ,Projects.currentProject
     ));
     this.domCache();
     this.render();
@@ -21,6 +21,7 @@ export default class UI{
     this.contentRender();
     this.domCache();
     this.bindEventReload();
+    console.log(Todos.todoList)
   }
   static projectRender(){
     this.projectList.innerHTML = '';
@@ -37,8 +38,12 @@ export default class UI{
     this.tasksRender();
   }
   static tasksRender(){
+    console.log(Projects.currentProject);
     this.tasks.innerHTML='';
     for(let i=0; i<Todos.todoList.length; i++){
+      if(Todos.todoList[i].project != Projects.currentProject){
+        continue;
+      }
       //create dom element
       const taskItem = document.createElement('div');
       taskItem.classList.add('taskItem');
@@ -102,7 +107,8 @@ export default class UI{
     });
   }
   static projectItemClk(e){
-
+    Projects.currentProject = e.textContent;
+    this.render();
   }
   static projectCrossClk(){ 
     this.projectAddBtn.style.display ='block';
