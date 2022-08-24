@@ -1,6 +1,7 @@
 import Projects from './project';
 import TrashIcon from '../img/trash.png';
 import UI from './ui'
+import Todos from './todos';
 
 export default class{
 
@@ -13,6 +14,7 @@ export default class{
     this.projectRender();
     this.domCache();
     this.bindEventReload();
+    console.log(Todos.todoList)
   }
   static projectRender(){
     this.projectList.innerHTML = '';
