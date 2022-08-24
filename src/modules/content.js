@@ -129,11 +129,13 @@ export default class Content{
     this.resetInputs();
     this.addTaskBtn.style.display = 'none';
     this.addTaskPrompt.style.display = 'flex';
+    this.taskTitleIP.focus();
   }
   static confirmBtnClk(){
     this.resetInputs();
     const task = new Task(
-      this.taskTitleIP.value, this.dueDateIP.value, Projects.currentProject
+      (this.taskTitleIP.value)?(this.taskTitleIP.value):'Title Undefined',
+       this.dueDateIP.value, Projects.currentProject
     );
     if(this.taskIPStarIcon.src==StarGoldIcon){
       task.priority=true;

@@ -42,6 +42,8 @@ export default class{
     this.projectList = document.querySelector('.projectList');
     this.projectItem = document.querySelectorAll('.projectItem');
     this.TrashIcon = document.querySelectorAll('.projectItem .trashIcon');
+    this.titleExistError = document.querySelector('.error.titleExist');
+    this.emptyTitleError = document.querySelector('.error.emptyTitle');
   }
   static bindEvent(){
     this.addBtn.addEventListener('click', this.addBtnClk.bind(this));
@@ -71,13 +73,14 @@ export default class{
 
   static projectTickClk(){
     if(this.titleIP.value==''){
-      alert("Title can't be empty");
+      this.emptyTitleError.style.display='block';
       return;
     }
     if(Projects.projectList.includes(this.titleIP.value)){
-      alert('project name alreasdy exist!')
+      this.titleExistError.style.display='block';
       return;
     }
+
     Projects.addProjectToList(this.titleIP.value);
 
     this.addBtn.style.display ='block';
@@ -86,9 +89,12 @@ export default class{
   }
 
   static addBtnClk(){
+    this.emptyTitleError.style.display='none';
+    this.titleExistError.style.display='none';
     this.resetInput();
     this.projectInput.style.display = 'grid'; 
     this.addBtn.style.display ='none';
+    this.titleIP.focus();
   }
 
   static projectItemClk(e){
