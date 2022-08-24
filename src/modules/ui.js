@@ -11,7 +11,6 @@ export default class UI{
   static init(){
     this.domCache();
     this.render();
-    this.domCache();
     this.bindEvent();
   }
   static render(){
