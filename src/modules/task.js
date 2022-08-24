@@ -3,6 +3,7 @@ export default class Task{
   dueDate;
   project;
   priority = false;
+  done=false;
   constructor(title, dueDate, project){
     this.title = title;
     this.dueDate = dueDate;

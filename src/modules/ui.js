@@ -8,9 +8,6 @@ import StarGoldIcon from '../img/starGold.png';
 
 export default class UI{
   static init(){
-    Todos.addTaskToList(new Task(
-      "car buy", "07/06/2002" ,Projects.currentProject
-    ));
     this.domCache();
     this.render();
     this.domCache();
@@ -21,7 +18,6 @@ export default class UI{
     this.contentRender();
     this.domCache();
     this.bindEventReload();
-    console.log(Todos.todoList)
   }
   static projectRender(){
     this.projectList.innerHTML = '';
@@ -41,7 +37,6 @@ export default class UI{
     this.tasksRender();
   }
   static tasksRender(){
-    console.log(Projects.currentProject);
     this.tasks.innerHTML='';
     for(let i=0; i<Todos.todoList.length; i++){
       if(Todos.todoList[i].project != Projects.currentProject){
@@ -53,6 +48,10 @@ export default class UI{
       checkBox.classList.add('checkBox');
       const taskItem = document.createElement('div');
       taskItem.classList.add('taskItem');
+      if(Todos.todoList[i].done){
+        taskItem.classList.add('done');
+        checkBox.checked = true;
+      }
       taskItem.setAttribute('data-index', i);
       const taskTitle = document.createElement('div');
       taskTitle.classList.add('taskTitle');
@@ -97,6 +96,7 @@ export default class UI{
     this.projectItem = document.querySelectorAll('.projectItem');
     this.starIcon = document.querySelectorAll('.taskItem .starIcon');
     this.taskIPStarIcon = document.querySelector('.taskInput .starIcon');
+    this.checkBox = document.querySelectorAll('.checkBox')
   }
   static bindEvent(){
     this.confirmBtn.addEventListener('click', this.confirmBtnClk.bind(this));
@@ -117,9 +117,20 @@ export default class UI{
     this.starIcon.forEach((e)=>{
       e.addEventListener('click', this.starIconClk.bind(this, e));
     });
+    this.checkBox.forEach((e)=>{
+      e.addEventListener('change', this.checkBoxChange.bind(this, e));
+    })
+  }
+  static checkBoxChange(e){
+    const index = this.indexByElem(e);
+    if(e.checked){
+      Todos.todoList[index].done=true;
+    }else{
+      Todos.todoList[index].done=false;
+    }
+    this.render();
   }
   static taskIPStarIconClk(){
-    console.log(this.taskIPStarIcon.src)
     if(this.taskIPStarIcon.src == StarGoldIcon){
       this.taskIPStarIcon.src = StarIcon;
     }else{

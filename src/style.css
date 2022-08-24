@@ -64,7 +64,7 @@ input{
   height: 1.5em;
   background-color: var(--primary-clr);
   display: flex;
-  color: white;
+  color: rgb(0, 0, 0);
   padding: 5px 10px;
   align-items: center;
   align-items: center;
@@ -137,4 +137,11 @@ input{
 .projectItem.current{
   background-color: var(--secondary-clr);
   color:black;
+}
+.taskItem.done{
+  color:white;
+  text-decoration: line-through;
+}
+.checkBox:hover,.taskItem img:hover{
+  cursor: pointer;
 }
