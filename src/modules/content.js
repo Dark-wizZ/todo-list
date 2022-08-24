@@ -122,13 +122,16 @@ export default class Content{
     UI.render();
   }
   static cancelBtnClk(){
+    this.resetInputs();
     this.showAddBtn();
   }
   static addTaskBtnClk(){
+    this.resetInputs();
     this.addTaskBtn.style.display = 'none';
     this.addTaskPrompt.style.display = 'flex';
   }
   static confirmBtnClk(){
+    this.resetInputs();
     const task = new Task(
       this.taskTitleIP.value, this.dueDateIP.value, Projects.currentProject
     );
@@ -141,6 +144,10 @@ export default class Content{
   static showAddBtn(){
     this.addTaskBtn.style.display = 'flex';
     this.addTaskPrompt.style.display = 'none';
+  }
+  static resetInputs(){
+    this.taskTitleIP.value= '';
+    this.dueDateIP.value= '';
   }
 
 }

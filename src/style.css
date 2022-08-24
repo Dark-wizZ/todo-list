@@ -106,7 +106,7 @@ input{
 }
 .projectInput{
   display: none;
-  gap: 2px;
+  gap:10px;
 }
 .projectInput img{
   height: 30px;

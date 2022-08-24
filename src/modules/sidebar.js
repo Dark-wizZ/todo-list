@@ -14,7 +14,6 @@ export default class{
     this.projectRender();
     this.domCache();
     this.bindEventReload();
-    console.log(Todos.todoList)
   }
   static projectRender(){
     this.projectList.innerHTML = '';
@@ -87,6 +86,7 @@ export default class{
   }
 
   static addBtnClk(){
+    this.resetInput();
     this.projectInput.style.display = 'grid'; 
     this.addBtn.style.display ='none';
   }
@@ -98,6 +98,9 @@ export default class{
     }
     Projects.currentProject = e.textContent;
     UI.render();
+  }
+  static resetInput(){
+    this.titleIP .value= '';
   }
 
 }
