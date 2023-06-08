@@ -25,5 +25,5 @@ function isStorageAvailable(type) {
 export let storageAvailability = isStorageAvailable("localStorage");
 export { storage };
 
-//initiate UI
+//initiate UI-
 document.addEventListener("DOMContentLoaded", UI.init());
