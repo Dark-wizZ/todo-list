@@ -21,7 +21,7 @@ body {
 body {
   display: grid;
   background-color: var(--bgc);
-  grid-template-columns: minmax(150px, max-content) 1fr;
+  grid-template-columns: 1fr 4fr;
   grid-template-rows: 1fr auto;
 }
 button {
@@ -86,11 +86,11 @@ input {
 .sidebar {
   background-color: var(--primary-clr);
   padding: 10px;
-  display: grid;
-  grid-template-rows: auto 1fr;
+  display: flex;
+  flex-direction: column;
   gap: 10px;
-  min-width: fit-content;
   grid-row: 1/-1;
+  grid-column: 1/2;
 }
 .project {
   display: grid;
@@ -173,7 +173,21 @@ input {
   background-color: var(--bgc-d);
   text-align: center;
 }
-.title {
+.user{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.username {
   font-size: 2rem;
   font-weight: 900;
+  max-width: 100%;
+}
+.user img{
+  height: 2rem;
+  border-radius: 50%;
+  border: 1px solid white;
+  box-shadow: 0 0 10px 0;
+  object-fit:cover;
+
 }

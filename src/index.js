@@ -22,7 +22,9 @@ function isStorageAvailable(type) {
     );
   }
 }
-export let storageAvailability = isStorageAvailable("localStorage");
+//making storage availability false for firebase testing
+// export let storageAvailability = isStorageAvailable("localStorage");
+export let storageAvailability = false;
 export { storage };
 
 //initiate UI

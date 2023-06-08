@@ -2,10 +2,13 @@ import Projects from "./project";
 import TrashIcon from "../img/trash.png";
 import UI from "./ui";
 import Todos from "./todos";
+import {auth, provider as authProvider, onAuthStateChanged,signInWithPopup,signOut} from "./auth";
 
 export default class {
   static init() {
     this.domCache();
+    this.profileUp();
+    onAuthStateChanged(auth, this.profileUp.bind(this))
     this.render();
     this.bindEvent();
   }
@@ -43,6 +46,8 @@ export default class {
     this.TrashIcon = document.querySelectorAll(".projectItem .trashIcon");
     this.titleExistError = document.querySelector(".error.titleExist");
     this.emptyTitleError = document.querySelector(".error.emptyTitle");
+    this.userImage = document.querySelector('.user img');
+    this.username = document.querySelector('.username');
   }
   static bindEvent() {
     this.addBtn.addEventListener("click", this.addBtnClk.bind(this));
@@ -51,6 +56,7 @@ export default class {
       "click",
       this.projectCrossClk.bind(this)
     );
+    this.userImage.addEventListener("click",this.userImageClk.bind(this));
   }
   static bindEventReload() {
     this.TrashIcon.forEach((e) => {
@@ -59,6 +65,16 @@ export default class {
     this.projectItem.forEach((e) => {
       e.addEventListener("click", this.projectItemClk.bind(this, e));
     });
+  }
+
+  static profileUp(){
+    if(auth.currentUser){
+      this.userImage.src=auth.currentUser.photoURL;
+      this.username.textContent=auth.currentUser.displayName;
+    }else{
+      this.userImage.src='https://unsplash.it/100/100'
+      this.username.textContent='<-Login';
+    }
   }
 
   static trashIconClk(e) {
@@ -109,5 +125,9 @@ export default class {
   }
   static resetInput() {
     this.titleIP.value = "";
+  }
+  static userImageClk(){
+    if(auth.currentUser) signOut(auth)
+    else signInWithPopup(auth, authProvider)
   }
 }

@@ -28,6 +28,7 @@
     "webpack-dev-server": "^4.10.0"
   },
   "dependencies": {
-    "data-fns": "^0.1.8"
+    "data-fns": "^0.1.8",
+    "firebase": "^9.22.2"
   }
 }
