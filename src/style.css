@@ -189,5 +189,5 @@ input {
   border: 1px solid white;
   box-shadow: 0 0 10px 0;
   object-fit:cover;
-
+  cursor: pointer;
 }
