@@ -2,7 +2,10 @@ import Projects from "./project";
 import TrashIcon from "../img/trash.png";
 import UI from "./ui";
 import Todos from "./todos";
-import {auth, provider as authProvider, onAuthStateChanged,signInWithPopup,signOut} from "./auth";
+import {auth, provider as authProvider,
+  onAuthStateChanged,signInWithPopup,signOut,
+  db, setDoc, collection, addDoc, doc, getDoc
+} from "./fbase";
 
 export default class {
   static init() {
@@ -67,20 +70,32 @@ export default class {
     });
   }
 
-  static profileUp(){
+  static async profileUp(){
     if(auth.currentUser){
       this.userImage.src=auth.currentUser.photoURL;
       this.username.textContent=auth.currentUser.displayName;
+      const data = await getDoc(doc(db,'users',auth.currentUser.email)).then(d => d.data())
+      if(data){
+        Projects.projectList=data.projects;
+        Todos.todoList=JSON.parse(data.todos);
+      }else{
+        Projects.projectList=['General'];
+        Todos.todoList=[];
+      }
     }else{
       this.userImage.src='https://unsplash.it/100/100'
       this.username.textContent='<-Login';
+      Projects.projectList=['General'];
+      Todos.todoList=[];
     }
+    UI.render()
   }
 
-  static trashIconClk(e) {
+  static async trashIconClk(e) {
     this.trashIconClicked = true;
     const index = UI.indexByElem(e);
     Projects.deleteProject(index);
+    await this.updatedb();
     this.render();
   }
 
@@ -89,7 +104,7 @@ export default class {
     this.projectInput.style.display = "none";
   }
 
-  static projectTickClk() {
+  static async projectTickClk() {
     if (this.titleIP.value == "") {
       this.emptyTitleError.style.display = "block";
       return;
@@ -100,10 +115,22 @@ export default class {
     }
 
     Projects.addProjectToList(this.titleIP.value);
+    
+    //add to firestore
+    await this.updatedb();
 
     this.addBtn.style.display = "block";
     this.projectInput.style.display = "none";
     UI.render();
+  }
+  static async updatedb(){
+    try {
+      await setDoc(doc(db,'users',auth.currentUser.email),{
+        projects: Projects.projectList
+      },{merge: true})
+    }catch(e){
+      console.error('error updating projects to firestore: ',e)
+    }
   }
 
   static addBtnClk() {

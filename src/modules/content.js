@@ -5,6 +5,7 @@ import StarIcon from "../img/star.png";
 import StarGoldIcon from "../img/starGold.png";
 import Projects from "./project";
 import UI from "./ui";
+import {doc, setDoc, db, auth} from './fbase'
 
 export default class Content {
   static init() {
@@ -118,9 +119,10 @@ export default class Content {
     Todos.changePriority(index);
     UI.render();
   }
-  static trashIconClk(e) {
+  static async trashIconClk(e) {
     const index = UI.indexByElem(e);
     Todos.deleteTask(index);
+    await this.updatedb()
     UI.render();
   }
   static cancelBtnClk() {
@@ -133,7 +135,7 @@ export default class Content {
     this.addTaskPrompt.style.display = "flex";
     this.taskTitleIP.focus();
   }
-  static confirmBtnClk() {
+  static async confirmBtnClk() {
     const task = new Task(
       this.taskTitleIP.value ? this.taskTitleIP.value : "Title Undefined",
       this.dueDateIP.value,
@@ -143,8 +145,19 @@ export default class Content {
       task.priority = true;
     }
     Todos.addTaskToList(task);
+    //add to firestore
+    await this.updatedb();
     UI.render();
     this.resetInputs();
+  }
+  static async updatedb(){
+    try {
+      await setDoc(doc(db,'users',auth.currentUser.email),{
+        todos: JSON.stringify(Todos.todoList)
+      },{merge: true})
+    }catch(e){
+      console.error('error updating todos to firestore: ',e)
+    }
   }
   static showAddBtn() {
     this.addTaskBtn.style.display = "flex";

@@ -3,10 +3,12 @@ import Content from "./content";
 import Project from "./project";
 import Todos from "./todos";
 import { storageAvailability as SA, storage } from "../index";
+import {auth, doc, getDoc, db} from './fbase'
 
 export default class UI {
-  static init() {
+  static async init() {
     // storage.projectList  = JSON.stringify([])
+    //restore data from firestore
     if (SA) {
       Project.projectList = storage.projectList
         ? JSON.parse(storage.projectList)
@@ -15,8 +17,8 @@ export default class UI {
         ? JSON.parse(storage.todoList)
         : Todos.todoList;
     }
-    Sidebar.init();
     Content.init();
+    Sidebar.init();
     this.render();
   }
   static render() {
